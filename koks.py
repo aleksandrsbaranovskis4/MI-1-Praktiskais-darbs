@@ -7,6 +7,7 @@ class Node:
         self.parent = parent
         self.child = []
         self.final_score = None
+        self.winner = None
 
     def is_terminal(self):
         return self.num >= 3000
@@ -17,17 +18,18 @@ class Node:
         else:
             self.final_score = self.score + self.bank
     
-    def winner(self):
+    def find_winner(self):
         if self.final_score == 0:
-            return "Tie?"
+            self.winner = "Draw?"
         elif self.final_score % 2 == 0:
-            return "Player 1"
+            self.winner = "Player 1"
         else:
-            return "Player 2"
+            self.winner = "Player 2"
 
 def build_tree(node):
     if node.is_terminal():
         node.compute_final_score()
+        node.find_winner()
         return
     
     for multiplier in [3, 4, 5]:
@@ -47,7 +49,7 @@ def print_tree(node, indent=0):
         move_str = ""
     
     if node.is_terminal():
-        print(f"{prefix}{move_str}num: {node.num}, Score: {node.score}, Bank: {node.bank} | Final Score: {node.final_score} | Winner: {node.winner()}")
+        print(f"{prefix}{move_str}num: {node.num}, Score: {node.score}, Bank: {node.bank} | Final Score: {node.final_score} | Winner: {node.winner}")
     else:
         print(f"{prefix}{move_str}num: {node.num}, Score: {node.score}, Bank: {node.bank}")
     
