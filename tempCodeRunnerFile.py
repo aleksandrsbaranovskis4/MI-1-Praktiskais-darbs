@@ -1,2 +1,2 @@
 
-        root = Koks(num)
+        print(minimax(tree.root, True))
